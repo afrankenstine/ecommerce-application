@@ -17,6 +17,7 @@ def upload_dp_to(instance, filename):
 
 
 class User(AbstractUser):
+    email = models.EmailField(max_length=70, unique= True)
     phone_number = models.CharField(max_length=15, default='')
     display_picture = models.FileField(upload_to=upload_dp_to, default='')
     role = models.CharField(
@@ -29,6 +30,7 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email

@@ -39,17 +39,16 @@ CATEGORIES = (
 
 
 class Product(models.Model):
-    seller = models.ForeignKey(Seller,
-        on_delete=models.CASCADE, unique=True)
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, default='')
     description = models.CharField(max_length=550, default='')
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    rating = models.ManyToManyField(User, blank=True, through=Rating)
+    ratings = models.ManyToManyField(Customer, blank=True, through="Rating")
     category = models.CharField(
-        max_length=15, choices=CATEGORIES, default='customer', null=False, blank=False)
+        max_length=15, choices=CATEGORIES, default='customer')
 
     @property
     def avg_rating(self):
@@ -64,12 +63,10 @@ class Product(models.Model):
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(Customer,
-        on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,
-        on_delete=models.CASCADE)
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
-        unique_together = ['user_id', 'product_id']
+        unique_together = ['user', 'product']

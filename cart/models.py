@@ -4,40 +4,48 @@ from users.models import Customer
 from products.models import Product
 
 
-STATUS=(
+CART_STATUS=(
     ('paid','paid'),
     ('unpaid', 'unpaid')
 )
 
-class Cart(models.Model):
-    user = models.ForeignKey(Customer,
-        on_delete=models.CASCADE)
-    items = models.ManyToManyField(Product, through='CartItems')
+WISH_STATUS=(
+    ('purchased','purchased'),
+    ('remaining', 'remaining')
+)
+
+
+class BaseListModel(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class BaseItemsModel(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Cart(BaseListModel):
+    items = models.ManyToManyField(Product, blank=True, through='CartItems')
     status = models.CharField(max_length=15, 
-        choices=STATUS, default='unpaid')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+        choices=CART_STATUS, default='unpaid')
 
 
-class CartItems(models.Model):
-    user = models.ForeignKey(Customer,
-        on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart,
-        on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,
-        on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class CartItems(BaseItemsModel):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
 
 
-class WishList(models.Model):
-    user = models.ForeignKey(Customer,
-        on_delete=models.CASCADE)
-    items = models.ManyToManyField(Product, through='CartItems')
+class WishList(BaseListModel):
+    items = models.ManyToManyField(Product, blank=True, through='WishListItems')
     status = models.CharField(max_length=15, 
-        choices=STATUS, default='unpaid')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+        choices=WISH_STATUS, default='remaining')
+
+
+class WishListItems(BaseItemsModel):
+    wish_list = models.ForeignKey(WishList, on_delete=models.CASCADE)
 
 
 # class Order(models.Model):
