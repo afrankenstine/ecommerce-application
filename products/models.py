@@ -47,11 +47,12 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    rating = models.ManyToManyField(User, blank=True, through=Rating)
     category = models.CharField(
         max_length=15, choices=CATEGORIES, default='customer', null=False, blank=False)
 
     @property
-    def rating(self):
+    def avg_rating(self):
         Rating.objects.filter(product_id=self).aggregate(Avg('rating'))
     
     @property
@@ -63,9 +64,9 @@ class Product(models.Model):
 
 
 class Rating(models.Model):
-    user_id = models.ForeignKey(Customer,
+    user = models.ForeignKey(Customer,
         on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Product,
+    product = models.ForeignKey(Product,
         on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
