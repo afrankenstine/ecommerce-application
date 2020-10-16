@@ -19,7 +19,7 @@ def upload_dp_to(instance, filename):
 class User(AbstractUser):
     email = models.EmailField(max_length=70, unique= True)
     phone_number = models.CharField(max_length=15, default='')
-    display_picture = models.FileField(upload_to=upload_dp_to, default='')
+    display_picture = models.FileField(upload_to=upload_dp_to, default='', blank=True)
     role = models.CharField(
         max_length=15, choices=ROLES, default='customer', null=False, blank=False)
     country = models.CharField(max_length=50, default='')

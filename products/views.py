@@ -32,7 +32,6 @@ class ProductViews(viewsets.GenericViewSet,
         else:
             raise exceptions.PermissionDenied()
 
-
     def update(self, request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
@@ -44,7 +43,6 @@ class ProductViews(viewsets.GenericViewSet,
                 raise exceptions.PermissionDenied()
         else:
             raise exceptions.PermissionDenied()
-
 
     def partial_update(self, request, *args, **kwargs):
         user = request.user
@@ -59,7 +57,6 @@ class ProductViews(viewsets.GenericViewSet,
             raise exceptions.PermissionDenied()
 
 
-
 class RatingViews(viewsets.GenericViewSet,
                 mixins.ListModelMixin,
                 mixins.RetrieveModelMixin,
@@ -69,3 +66,16 @@ class RatingViews(viewsets.GenericViewSet,
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset.all()
+        user = self.request.user
+        queryset = queryset.filter(user=user)
+        return queryset
+    
+    def retrieve(self, request, *args, **kwargs):
+        user = request.user
+        requested_user = int(kwargs['pk'])
+        if Rating.objects.get(user=requested_user) == 'seller':
+            return super().retrieve(request, *args, **kwargs)
+        else:
+            raise exceptions.PermissionDenied()
