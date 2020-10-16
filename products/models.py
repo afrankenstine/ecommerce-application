@@ -57,7 +57,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     ratings = models.ManyToManyField(Customer, blank=True, through="Rating")
-    queries = models.ManyToManyField(Customer, blank=True, through="ProductQuery")
+    queries = models.ManyToManyField(User, blank=True, through="ProductQuery")
     category = models.CharField(max_length=15, choices=CATEGORIES, default="customer")
 
     def __str__(self):

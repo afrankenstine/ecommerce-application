@@ -1,4 +1,4 @@
-from django.conf import local_settings
+from django.conf import settings
 from rest_framework.views import APIView
 import requests
 from rest_framework.response import Response
@@ -11,8 +11,8 @@ class VerifyKhaltiPayment(APIView):
     def post(self, request, *args, **kwargs):
         token = request.POST.get("token")
         amount = request.POST.get("amount")
-        url = local_settings.KHALTI_VERIFY_URL
-        secret_key = local_settings.KHALTI_SECRET_KEY
+        url = settings.KHALTI_VERIFY_URL
+        secret_key = settings.KHALTI_SECRET_KEY
         payload = {
             "token": token,
             "amount": amount,

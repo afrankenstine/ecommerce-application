@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core import exceptions
 
-from .models import Product, Rating
+from products.models import Product, Rating
 
 from .serializers import (
     CartSerializer,

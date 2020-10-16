@@ -9,11 +9,11 @@ from .views import (
 )
 
 
-urlpatterns =[
+urlpatterns = [
     path("", AllNotificationsList.as_view()),
     path("unread/", UnreadNotificationsList.as_view()),
-    path("mark-all-as-read/", MarkAllAsRead.as_view(),),
-    path('^unread_count/', UnreadNotificationCount.as_view(),
-    re_path(r"^mark-as-read/(?P<id>\d+)/$", MarkAsRead.as_view(),
+    path("mark-all-as-read/", MarkAllAsRead.as_view()),
+    path("unread_count/", UnreadNotificationCount.as_view()),
+    re_path(r"^mark-as-read/(?P<id>\d+)/$", MarkAsRead.as_view()),
     re_path(r"^mark-as-unread/(?P<id>\d+)/$", MarkAsUnRead.as_view()),
 ]
