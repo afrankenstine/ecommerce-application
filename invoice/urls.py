@@ -1,2 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from django.conf.urls import url,include
+from django.urls import path
+from .views import VerifyKhaltiPayment
+
+urlpatterns = [
+    path("verifypayment/khalti/", VerifyKhaltiPayment.as_view()),
+]

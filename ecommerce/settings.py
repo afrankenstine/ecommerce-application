@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+KHALTI_SECRET_KEY = os.getenv("KHALTI_SECRET_KEY")
+KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

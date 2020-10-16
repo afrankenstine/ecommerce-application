@@ -1,16 +1,14 @@
-from django.views.generic import ListView
-
+from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-
+from django.shortcuts import get_object_or_404
 from .serializers import NotificationSerializer
 from .models import Notification
 
-from drf_yasg.utils import swagger_auto_schema
 
-
-class BaseNotificationViewList(ListView):
+class BaseNotificationViewList(ListAPIView):
     serializer_class = NotificationSerializer
     model = Notification
     paginate_by = 50
