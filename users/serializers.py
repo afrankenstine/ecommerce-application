@@ -12,33 +12,17 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class UserViewSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer(read_only=True)
-    seller = SellerSerializer(read_only=True)
-    class Meta:
-        model = User
-        fields = (
-            "id",
-            "email",
-            "role",
-            "phone_number",
-            "display_picture",
-            "country",
-            "province",
-            "city",
-            "address",
-            "customer",
-            "seller",)
-
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = "__all__"
 
+
 class SellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seller
         fields = "__all__"
+
 
 class SupportSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,8 +37,9 @@ class AdminSerializer(serializers.ModelSerializer):
 
 
 class UserViewSerializer(serializers.ModelSerializer):
-    customer = CustomerSerializer()
-    seller = SellerSerializer()
+    customer = CustomerSerializer(read_only=True)
+    seller = SellerSerializer(read_only=True)
+   
     class Meta:
         model = User
         fields = (

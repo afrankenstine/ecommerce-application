@@ -4,15 +4,9 @@ from users.models import Customer
 from products.models import Product
 
 
-CART_STATUS=(
-    ('paid','paid'),
-    ('unpaid', 'unpaid')
-)
+CART_STATUS = (("paid", "paid"), ("unpaid", "unpaid"))
 
-WISH_STATUS=(
-    ('purchased','purchased'),
-    ('remaining', 'remaining')
-)
+WISH_STATUS = (("purchased", "purchased"), ("remaining", "remaining"))
 
 
 class BaseListModel(models.Model):
@@ -29,28 +23,26 @@ class BaseItemsModel(models.Model):
 
 
 class Cart(BaseListModel):
-    items = models.ManyToManyField(Product, blank=True, through='CartItems')
-    # status = models.CharField(max_length=15, 
+    items = models.ManyToManyField(Product, blank=True, through="CartItems")
+    # status = models.CharField(max_length=15,
     #     choices=CART_STATUS, default='unpaid')
 
 
 class CartItems(BaseItemsModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     cart_quantity = models.IntegerField(default=1)
-    status = models.CharField(max_length=15, 
-        choices=CART_STATUS, default='unpaid')
+    status = models.CharField(max_length=15, choices=CART_STATUS, default="unpaid")
 
 
 class WishList(BaseListModel):
-    items = models.ManyToManyField(Product, blank=True, through='WishListItems')
-    # status = models.CharField(max_length=15, 
+    items = models.ManyToManyField(Product, blank=True, through="WishListItems")
+    # status = models.CharField(max_length=15,
     #     choices=WISH_STATUS, default='remaining')
 
 
 class WishListItems(BaseItemsModel):
     wish_list = models.ForeignKey(WishList, on_delete=models.CASCADE)
-    status = models.CharField(max_length=15, 
-        choices=WISH_STATUS, default='remaining')
+    status = models.CharField(max_length=15, choices=WISH_STATUS, default="remaining")
 
 
 # class Order(models.Model):
@@ -59,4 +51,3 @@ class WishListItems(BaseItemsModel):
 #     product_id = models.ForeignKey(Product,
 #         on_delete=models.CASCADE)
 #     ordered_at = models.DateTimeField(auto_now_add=True)
-    
