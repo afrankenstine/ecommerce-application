@@ -9,5 +9,4 @@ class Invoice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     payment_amount = models.IntegerField(default=0)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     

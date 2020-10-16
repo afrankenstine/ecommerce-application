@@ -30,22 +30,27 @@ class BaseItemsModel(models.Model):
 
 class Cart(BaseListModel):
     items = models.ManyToManyField(Product, blank=True, through='CartItems')
-    status = models.CharField(max_length=15, 
-        choices=CART_STATUS, default='unpaid')
+    # status = models.CharField(max_length=15, 
+    #     choices=CART_STATUS, default='unpaid')
 
 
 class CartItems(BaseItemsModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart_quantity = models.IntegerField(default=1)
+    status = models.CharField(max_length=15, 
+        choices=CART_STATUS, default='unpaid')
 
 
 class WishList(BaseListModel):
     items = models.ManyToManyField(Product, blank=True, through='WishListItems')
-    status = models.CharField(max_length=15, 
-        choices=WISH_STATUS, default='remaining')
+    # status = models.CharField(max_length=15, 
+    #     choices=WISH_STATUS, default='remaining')
 
 
 class WishListItems(BaseItemsModel):
     wish_list = models.ForeignKey(WishList, on_delete=models.CASCADE)
+    status = models.CharField(max_length=15, 
+        choices=WISH_STATUS, default='remaining')
 
 
 # class Order(models.Model):
