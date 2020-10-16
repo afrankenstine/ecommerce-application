@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from rest_framework import viewsets, mixins, status
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core import exceptions
 
@@ -15,7 +13,6 @@ from .serializers import (
 from .models import CartItems, Cart, WishList, WishListItems
 
 from users.models import Seller, Customer
-from notification.signals import notify
 
 
 class AbstractBaseItemsView(
