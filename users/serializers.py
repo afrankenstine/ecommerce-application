@@ -70,15 +70,9 @@ class CustomRegisterSerializer(RegisterSerializer):
         max_length=50, allow_blank=True, required=False
     )
     city = serializers.CharField(max_length=50, allow_blank=True, required=False)
-    # is_company = serializers.BooleanField()
-    # is_mentor = serializers.BooleanField()
     display_picture = serializers.FileField(
         max_length=None, allow_empty_file=True, required=False
     )
-    # cv = serializers.FileField(max_length=None, allow_empty_file=True,
-    #     use_url=UPLOADED_FILES_USE_URL, required=False)
-    # logo = serializers.FileField(max_length=None, allow_empty_file=True,
-    #     use_url=UPLOADED_FILES_USE_URL, required=False)
 
     class Meta:
         model = User
@@ -111,10 +105,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             "country": self.validated_data.get("country", ""),
             "province": self.validated_data.get("province", ""),
             "address": self.validated_data.get("address", ""),
-            # 'is_mentor': self.validated_data.get('is_mentor', ''),
             "display_picture": self.validated_data.get("display_picture", ""),
-            # 'cv': self.validated_data.get('cv', ''),
-            # 'logo': self.validated_data.get('logo', '')
         }
 
     def save(self, request):
@@ -128,10 +119,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.province = self.cleaned_data.get("province")
         user.address = self.cleaned_data.get("address")
         user.country = self.cleaned_data.get("country")
-        # user.is_mentor = self.cleaned_data.get('is_mentor')
         user.display_picture = self.cleaned_data.get("display_picture")
-        # user.cv = self.cleaned_data.get('cv')
-        # user.logo = self.cleaned_data.get('logo')
         user.save()
         adapter.save_user(request, user, self)
         if self.cleaned_data.get("role") == "customer":
@@ -142,32 +130,32 @@ class CustomRegisterSerializer(RegisterSerializer):
         return user
 
 
-class UserRegisterSerializer(djsr.UserCreateSerializer):
-    class Meta:
-        model = User
-        fields = tuple(User.REQUIRED_FIELDS) + (
-            settings.LOGIN_FIELD,
-            settings.USER_ID_FIELD,
-            "password",
-            "first_name",
-            "last_name",
-            "role",
-            "phone_number",
-            "display_picture",
-            "country",
-            "province",
-            "city",
-            "address",
-        )
+# class UserRegisterSerializer(djsr.UserCreateSerializer):
+#     class Meta:
+#         model = User
+#         fields = tuple(User.REQUIRED_FIELDS) + (
+#             settings.LOGIN_FIELD,
+#             settings.USER_ID_FIELD,
+#             "password",
+#             "first_name",
+#             "last_name",
+#             "role",
+#             "phone_number",
+#             "display_picture",
+#             "country",
+#             "province",
+#             "city",
+#             "address",
+#         )
 
-    def perform_create(self, validated_data):
-        with transaction.atomic():
-            user = User.objects.create_user(**validated_data)
-            if settings.SEND_ACTIVATION_EMAIL:
-                user.is_active = False
-                user.save(update_fields=["is_active"])
-            if user.role == "customer":
-                Customer.objects.create(user_id=user)
-            elif user.role == "seller":
-                Seller.objects.create(user_id=user)
-        return user
+#     def perform_create(self, validated_data):
+#         with transaction.atomic():
+#             user = User.objects.create_user(**validated_data)
+#             if settings.SEND_ACTIVATION_EMAIL:
+#                 user.is_active = False
+#                 user.save(update_fields=["is_active"])
+#             if user.role == "customer":
+#                 Customer.objects.create(user_id=user)
+#             elif user.role == "seller":
+#                 Seller.objects.create(user_id=user)
+#         return user

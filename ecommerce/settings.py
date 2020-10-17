@@ -185,12 +185,12 @@ SIMPLE_JWT = {
 
 # Djoser
 
-DJOSER = {
-    "SERIALIZERS": {
-        "user_create": "users.serializers.UserRegisterSerializer",
-    },
-    # "LOGIN_FIELD": "User.EMAIL_FIELD",
-}
+# DJOSER = {
+#     "SERIALIZERS": {
+#         "user_create": "users.serializers.UserRegisterSerializer",
+#     },
+#     # "LOGIN_FIELD": "User.EMAIL_FIELD",
+# }
 
 
 ACCOUNT_UNIQUE_EMAIL = True
