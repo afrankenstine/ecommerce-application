@@ -1,0 +1,11 @@
+dj-rest-auth==1.1.1
+Django==2.2.16
+django-allauth==0.42.0
+django-cors-headers==3.5.0
+djangorestframework==3.11.1
+djangorestframework-simplejwt==4.4.0
+drf-yasg==1.17.1
+python-dotenv==0.14.0
+swagger-spec-validator==2.7.3
+swapper==1.1.2.post1
+
