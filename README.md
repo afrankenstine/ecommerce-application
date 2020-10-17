@@ -38,3 +38,9 @@ This is the repo with the backend for multi business ecommerce webapp. The backe
 
         http://127.0.0.1:8000/admin/
 
+7. You access the documention of the APIs as follows:
+        
+        http://127.0.0.1:8000/swagger/
+
+*Note: The project is still in development at this point. The front end of the application is being developed in VueJS.*
+
