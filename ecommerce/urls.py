@@ -50,9 +50,6 @@ urlpatterns = [
     path("user-items/", include("cart.urls")),
     path("notification/", include("notification.urls")),
     path("invoice/", include("invoice.urls")),
-    # re_path(r"^auth/", include("djoser.urls")),
-    # re_path(r"^auth/", include("djoser.urls.authtoken")),
-    # re_path(r"^auth/", include("djoser.urls.jwt")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

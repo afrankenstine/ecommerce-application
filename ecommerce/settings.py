@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "rest_framework.authtoken",
-    "djoser",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
