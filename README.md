@@ -78,5 +78,5 @@ You can customize the project to use it for your self. A few of the customizatio
                         return token
                 
 
-*Note: The project is still in development at this point. The front end of the application is being developed in VueJS.*
+*Note: The project is still in development at this point.The documentation will be completed in the future and might be different from how it is right now. Also, the front end of the application is being developed in VueJS.*
 

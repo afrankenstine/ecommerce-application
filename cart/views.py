@@ -27,7 +27,7 @@ class AbstractBaseItemsView(
         user = request.user
         data = request.data
         if user.is_authenticated:
-            if Customer.objects.get(user_id=user).id == data.get("user"):
+            if Customer.objects.get(user_id=user).id == int(data.get("user")):
                 return super().create(request, *args, **kwargs)
             elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
