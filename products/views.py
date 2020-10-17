@@ -103,8 +103,9 @@ class RatingViews(
     def create(self, request, *args, **kwargs):
         user = request.user
         data = request.data
+        # print(user.id)
         if user.is_authenticated and user.role == "customer":
-            if Customer.objects.get(user_id=user).id == data.get("user"):
+            if Customer.objects.get(user_id=user).id == int(data.get("user")):
                 product = data.get("product")
                 product_item = Product.objects.get(id=product)
                 seller = product_item.seller.user_id
@@ -222,7 +223,7 @@ class ProductQueryAnswerView(
         user = request.user
         data = request.data
         if user.is_authenticated:
-            if user.id == data.get("user"):
+            if user.id == int(data.get("user")):
                 product = data.get("product")
                 product_item = Product.objects.get(id=product)
                 seller = product_item.seller.user_id

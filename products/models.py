@@ -57,8 +57,12 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    ratings = models.ManyToManyField(Customer, blank=True, through="Rating")
-    queries = models.ManyToManyField(User, blank=True, through="ProductQuery")
+    # users_ratings = models.ManyToManyField(
+    #     "Rating", blank=True, related_name="product_user_ratings"
+    # )  # through="Rating")
+    # users_queries = models.ManyToManyField(
+    #     "ProductQuery", blank=True, related_name="product_user_queries"
+    # )  # through="ProductQuery")
     category = models.CharField(max_length=15, choices=CATEGORIES, default="")
 
     def __str__(self):
@@ -66,7 +70,7 @@ class Product(models.Model):
 
     @property
     def avg_rating(self):
-        Rating.objects.filter(product_id=self).aggregate(Avg("rating"))
+        return Rating.objects.filter(product_id=self).aggregate(Avg("rating"))
 
     @property
     def is_available(self):
