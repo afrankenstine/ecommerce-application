@@ -29,7 +29,7 @@ class AbstractBaseItemsView(
         if user.is_authenticated:
             if Customer.objects.get(user_id=user).id == data.get("user"):
                 return super().create(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -41,7 +41,7 @@ class AbstractBaseItemsView(
         if user.is_authenticated:
             if Customer.objects.get(user_id=user).id == int(kwargs["pk"]):
                 return super().update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -53,7 +53,7 @@ class AbstractBaseItemsView(
         if user.is_authenticated:
             if Customer.objects.get(user_id=user).id == int(kwargs["pk"]):
                 return super().partial_update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().partial_update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()

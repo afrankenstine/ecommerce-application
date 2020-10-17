@@ -107,17 +107,27 @@ class Notification(models.Model):
             self.save()
 
 
-def notify_handler(verb, **kwargs):
+def notify_handler(**kwargs):
     recipient = kwargs.pop("recipient")
     # public = bool(kwargs.pop('public', True))
     description = kwargs.pop("description", None)
     timestamp = kwargs.pop("timestamp", timezone.now())
 
     new_notifications = []
+    try:
+        for receiver in recipient:
+            newnotify = Notification(
+                recipient=receiver,
+                description=description,
+                # timestamp=timestamp,
+            )
 
-    for receiver in recipient:
+            newnotify.save()
+            new_notifications.append(newnotify)
+    except:
+
         newnotify = Notification(
-            recipient=receiver,
+            recipient=recipient,
             description=description,
             # timestamp=timestamp,
         )

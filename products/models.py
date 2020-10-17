@@ -3,6 +3,7 @@ from users.models import Seller, User, Customer
 from django.db.models import Avg
 import os
 from django.utils.timezone import now
+from django.conf import settings
 
 
 CATEGORIES = (
@@ -40,7 +41,7 @@ CATEGORIES = (
 
 def upload_pic_to(instance, filename):
     filename_base, filename_ext = os.path.splitext(filename)
-    return f'ProductData/product_pics/{now().strftime("%Y%m%d")+filename_ext}'
+    return f'{settings.MEDIA_ROOT}/ProductData/product_pics/{now().strftime("%Y%m%d")+filename_ext}'
 
 
 class Product(models.Model):
@@ -68,7 +69,7 @@ class Product(models.Model):
         Rating.objects.filter(product_id=self).aggregate(Avg("rating"))
 
     @property
-    def is_availabile(self):
+    def is_available(self):
         if self.quantity == 0:
             return False
         else:
@@ -79,6 +80,7 @@ class Rating(models.Model):
     user = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
+    review = models.CharField(max_length=550, default="")
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

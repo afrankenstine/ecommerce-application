@@ -33,7 +33,7 @@ class ProductViews(
         if user.is_authenticated:
             if Seller.objects.get(user_id=user).id == data.get("seller"):
                 return super().create(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -49,7 +49,7 @@ class ProductViews(
                 == Product.objects.get(id=requested_product).seller
             ):
                 return super().update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -65,7 +65,7 @@ class ProductViews(
                 == Product.objects.get(id=requested_product).seller
             ):
                 return super().partial_update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().partial_update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -109,9 +109,9 @@ class RatingViews(
                 product_item = Product.objects.get(id=product)
                 seller = product_item.seller.user_id
                 description = f"You have a new Rating for your product {product_item}."
-                notify.send(recipient=seller, description=description)
+                notify.send(sender=None, recipient=seller, description=description)
                 return super().create(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -127,7 +127,7 @@ class RatingViews(
                 == Rating.objects.get(id=requested_rating).user
             ):
                 return super().update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -143,7 +143,7 @@ class RatingViews(
                 == Rating.objects.get(id=requested_rating).user
             ):
                 return super().partial_update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().partial_update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -166,14 +166,14 @@ class ProductQueryView(
         user = request.user
         data = request.data
         if user.is_authenticated:
-            if user.id == data.get("user"):
+            if user.id == int(data.get("user")):
                 product = data.get("product")
                 product_item = Product.objects.get(id=product)
                 seller = product_item.seller.user_id
                 description = f"You have a new Question for the {product_item}."
-                notify.send(recipient=seller, description=description)
+                notify.send(sender=None, recipient=seller, description=description)
                 return super().create(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -186,7 +186,7 @@ class ProductQueryView(
         if user.is_authenticated:
             if user == ProductQuery.objects.get(id=requested_query).user:
                 return super().update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -199,7 +199,7 @@ class ProductQueryView(
         if user.is_authenticated:
             if user == ProductQuery.objects.get(id=requested_query).user:
                 return super().partial_update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().partial_update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -227,14 +227,14 @@ class ProductQueryAnswerView(
                 product_item = Product.objects.get(id=product)
                 seller = product_item.seller.user_id
                 description = f"You have a new Answer for your product {product_item}."
-                notify.send(recipient=seller, description=description)
+                notify.send(sender=None, recipient=seller, description=description)
                 reply_to = data.get("parent")
                 query = ProductQuery.objects.get(id=reply_to)
                 user = query.user
                 description = f'You have a new Answer for you question "{query}" on the product "{product_item}".'
-                notify.send(recipient=user, description=description)
+                notify.send(sender=None, recipient=user, description=description)
                 return super().create(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().create(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -247,7 +247,7 @@ class ProductQueryAnswerView(
         if user.is_authenticated:
             if user == ProductQuery.objects.get(id=requested_query).user:
                 return super().update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
@@ -260,7 +260,7 @@ class ProductQueryAnswerView(
         if user.is_authenticated:
             if user == ProductQuery.objects.get(id=requested_query).user:
                 return super().partial_update(request, *args, **kwargs)
-            elif user.role == "support" or "admin":
+            elif user.role == "support" or user.role == "admin":
                 return super().partial_update(request, *args, **kwargs)
             else:
                 raise exceptions.PermissionDenied()
