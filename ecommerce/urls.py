@@ -25,6 +25,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from users.tokens import MyTokenObtainPairView
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -64,6 +66,6 @@ urlpatterns = [
     ),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

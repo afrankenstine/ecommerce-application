@@ -1,4 +1,4 @@
-# Ecommerece Django Backend
+# Ecommerce Django Backend
 
 This is the repo with the backend for multi business ecommerce webapp. The backend exposes the REST API endopints for the frontend to be built upon.
 
@@ -26,6 +26,7 @@ This is the repo with the backend for multi business ecommerce webapp. The backe
 
         pip install -r requirements.txt
 
+
 4. After successfully installing the requirements, create a superuser for django using the following command:
 
         python manage.py createsuperuser
@@ -41,6 +42,41 @@ This is the repo with the backend for multi business ecommerce webapp. The backe
 7. You access the documention of the APIs as follows:
         
         http://127.0.0.1:8000/swagger/
+
+
+## Customizations
+
+You can customize the project to use it for your self. A few of the customizations are as follows.
+
+1. Create a .evn in the root folder of the project and add your khalti secret key for payment verification as follows:
+
+        KHALTI_SECRET_KEY = your-khalti-secret
+
+2. You can customize the JWT tokens by adding custom token claims to the  *get_token()*  function of *MyTokenObtainPairSerializer* class in *users/tokens.py* file. You can edit it as follows:
+
+    * Before
+
+                class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+                @classmethod
+                def get_token(cls, user):
+                        token = super().get_token(user)
+
+                        # Add custom claims
+                        # token["name"] = user.name
+                        # ...
+
+                        return token
+
+    * After
+
+                class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+                @classmethod
+                def get_token(cls, user):
+                        token = super().get_token(user)
+                        token["email"] = user.email
+                        token["role"] = user.role
+                        return token
+                
 
 *Note: The project is still in development at this point. The front end of the application is being developed in VueJS.*
 
