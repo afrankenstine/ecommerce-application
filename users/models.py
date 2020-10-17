@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
 import os
 from django.utils.timezone import now
-
+from django.utils.translation import gettext_lazy as _
 
 ROLES = (
     ("customer", "customer"),
@@ -18,6 +19,7 @@ def upload_dp_to(instance, filename):
 
 
 class User(AbstractUser):
+    username = models.CharField(max_length=150, null=True, blank=True)
     email = models.EmailField(max_length=70, unique=True)
     phone_number = models.CharField(max_length=15, default="")
     display_picture = models.FileField(upload_to=upload_dp_to, default="", blank=True)
@@ -32,7 +34,8 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username"]
+    # objects = CustomUserManager()
 
     def __str__(self):
         return self.email

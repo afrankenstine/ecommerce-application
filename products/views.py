@@ -81,13 +81,13 @@ class RatingViews(
     mixins.UpdateModelMixin,
 ):
     permission_classes = [IsAuthenticated]
-    queryset = Product.objects.all()
+    queryset = Rating.objects.all()
     serializer_class = RatingSerializer
 
     def get_queryset(self):
         queryset = self.queryset.all()
         user = self.request.user
-        queryset = queryset.filter(user=user)
+        print("I got till here")
         return queryset
 
     def retrieve(self, request, *args, **kwargs):

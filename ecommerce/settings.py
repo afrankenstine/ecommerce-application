@@ -43,11 +43,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "rest_framework",
     "drf_yasg",
     "rest_framework.authtoken",
     "djoser",
-    # 'notifications',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "users",
     "products",
     "cart",
@@ -138,7 +143,7 @@ STATIC_URL = "/static/"
 
 # App settings
 
-AUTH_USER_MODEL = "users.User"
+# AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
@@ -184,4 +189,27 @@ DJOSER = {
     "SERIALIZERS": {
         "user_create": "users.serializers.UserRegisterSerializer",
     },
+    # "LOGIN_FIELD": "User.EMAIL_FIELD",
 }
+
+
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_USERNAME_REQUIRED = False
+AUTH_USER_MODEL = "users.User"
+
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
+}
+
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "users.serializers.UserViewSerializer",
+    # 'TOKEN_SERIALIZER': 'users.serializers.KnoxSerializer',
+}
+
+REST_USE_JWT = True
+
+SITE_ID = 1
